@@ -7,6 +7,8 @@ package example.model;
  */
 public class SimpleBankAccount implements BankAccount {
 
+    public static final String WRONG_USER_ID_ERROR_MESSAGE = "The user ID given is wrong.";
+    public static final String WITHDRAW_DEPOSIT_AMOUNT_EXCEED_ERROR_MESSAGE = "The amount given is greater than the actual balance.";
     private double balance;
     private final AccountHolder holder;
 
@@ -28,13 +30,21 @@ public class SimpleBankAccount implements BankAccount {
     public void deposit(final int userID, final double amount) {
         if (checkUser(userID)) {
             this.balance += amount;
+        } else {
+            throw new IllegalArgumentException(WRONG_USER_ID_ERROR_MESSAGE);
         }
     }
 
     @Override
     public void withdraw(final int userID, final double amount) {
-        if (checkUser(userID) && isWithdrawAllowed(amount)) {
-            this.balance -= amount;
+        if (checkUser(userID)) {
+            if (isWithdrawAllowed(amount)) {
+                this.balance -= amount;
+            } else {
+                throw new IllegalArgumentException(WITHDRAW_DEPOSIT_AMOUNT_EXCEED_ERROR_MESSAGE);
+            }
+        } else {
+            throw new IllegalArgumentException(WRONG_USER_ID_ERROR_MESSAGE);
         }
     }
 
