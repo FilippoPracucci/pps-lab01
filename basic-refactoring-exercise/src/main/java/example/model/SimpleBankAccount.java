@@ -9,6 +9,7 @@ public class SimpleBankAccount implements BankAccount {
 
     public static final String WRONG_USER_ID_ERROR_MESSAGE = "The user ID given is wrong.";
     public static final String WITHDRAW_DEPOSIT_AMOUNT_EXCEED_ERROR_MESSAGE = "The amount given is greater than the actual balance.";
+    private static final int WITHDRAWAL_FEE_AMOUNT = 1;
     private double balance;
     private final AccountHolder holder;
 
@@ -39,7 +40,7 @@ public class SimpleBankAccount implements BankAccount {
     public void withdraw(final int userID, final double amount) {
         if (checkUser(userID)) {
             if (isWithdrawAllowed(amount)) {
-                this.balance -= amount;
+                this.balance -= (amount + WITHDRAWAL_FEE_AMOUNT);
             } else {
                 throw new IllegalArgumentException(WITHDRAW_DEPOSIT_AMOUNT_EXCEED_ERROR_MESSAGE);
             }

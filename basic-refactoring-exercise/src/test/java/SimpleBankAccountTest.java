@@ -52,7 +52,7 @@ class SimpleBankAccountTest {
 
     @Test
     void testWithdraw() {
-        final int expectedBalance = 30;
+        final int expectedBalance = 29;
         bankAccount.deposit(accountHolder.getId(), RIGHT_DEPOSIT_AMOUNT);
         bankAccount.withdraw(accountHolder.getId(), WITHDRAW_AMOUNT);
         assertEquals(expectedBalance, bankAccount.getBalance());
@@ -87,7 +87,7 @@ class SimpleBankAccountTest {
 
     @Test
     void testMultipleWithdraw() {
-        final int expectedBalance = 40;
+        final int expectedBalance = 37;
         bankAccount.deposit(accountHolder.getId(), RIGHT_DEPOSIT_AMOUNT);
         multipleWithdraws();
         assertEquals(expectedBalance, bankAccount.getBalance());
