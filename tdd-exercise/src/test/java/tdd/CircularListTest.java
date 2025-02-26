@@ -37,18 +37,26 @@ public class CircularListTest {
 
     private void fillCircularQueue() {
         for (int i = CAPACITY; i > 0; i--) {
-            this.circularQueue.add(i);
+            this.circularQueue.enqueue(i);
         }
     }
 
     @Test
-    public void testAddToFullCircularQueue() {
-        final int numberToAdd = 10;
+    public void testEnqueueToFullCircularQueue() {
+        final int numberToEnqueue = 10;
         fillCircularQueue();
-        this.circularQueue.add(numberToAdd);
+        this.circularQueue.enqueue(numberToEnqueue);
         assertAll(
-                () -> assertTrue(this.circularQueue.isFull()),
-                () -> assertEquals(CAPACITY, this.circularQueue.size())
+            () -> assertTrue(this.circularQueue.isFull()),
+            () -> assertEquals(CAPACITY, this.circularQueue.size())
+        );
+    }
+
+    @Test
+    public void testDequeueAndPeekIfEmptyCircularQueue() {
+        assertAll(
+            () -> assertThrows(IllegalStateException.class, () -> this.circularQueue.dequeue()),
+            () -> assertThrows(IllegalStateException.class, () -> this.circularQueue.peek())
         );
     }
 }

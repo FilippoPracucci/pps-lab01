@@ -30,7 +30,7 @@ public class CircularQueueImpl implements CircularQueue {
     }
 
     @Override
-    public void add(final int value) {
+    public void enqueue(final int value) {
         if (isFull()) {
             this.circularList.removeFirst();
         }
@@ -44,7 +44,7 @@ public class CircularQueueImpl implements CircularQueue {
     }
 
     @Override
-    public int remove() {
+    public int dequeue() {
         throwExceptionIfEmptyCircularQueue();
         return this.circularList.removeFirst();
     }

@@ -37,11 +37,11 @@ public interface CircularQueue {
     boolean isEmpty();
 
     /**
-     * Add an integer, if the CircularQueue is full it overwrites the oldest one.
+     * Enqueue an integer, if the CircularQueue is full it overwrites the oldest one.
      *
-     * @param value The integer to add.
+     * @param value The integer to enqueue.
      */
-    void add(int value);
+    void enqueue(int value);
 
     /**
      * Retrieves, but does not remove, the oldest element of the CircularQueue.
@@ -52,17 +52,17 @@ public interface CircularQueue {
     int peek();
 
     /**
-     * Removes and returns the oldest element of the CircularQueue.
+     * Dequeue and returns the oldest element of the CircularQueue.
      *
-     * @return The removed element.
+     * @return The dequeued element.
      * @throws IllegalStateException if the CircularQueue is empty.
      */
-    int remove();
+    int dequeue();
 
     /**
-     * Gets the number of elements inside the CircularQueue.
+     * Gets the actual number of elements inside the CircularQueue.
      *
-     * @return The number of elements inside the CircularQueue.
+     * @return The actual number of elements inside the CircularQueue.
      */
     int size();
 
