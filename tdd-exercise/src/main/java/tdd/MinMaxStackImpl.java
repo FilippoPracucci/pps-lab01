@@ -19,29 +19,31 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public int pop() {
+        throwIllegalStateExceptionIfEmpty();
         return this.valuesList.removeLast();
     }
 
     @Override
     public int peek() {
+        throwIllegalStateExceptionIfEmpty();
         return this.valuesList.getLast();
     }
 
     @Override
     public int getMin() {
-        if (this.valuesList.isEmpty()) {
-            throw new IllegalStateException(STANDARD_EMPTY_LIST_EXCEPTION_MESSAGE);
-        } else {
-            return this.valuesList.stream().min(Integer::compare).get();
-        }
+        throwIllegalStateExceptionIfEmpty();
+        return this.valuesList.stream().min(Integer::compare).orElseThrow();
     }
 
     @Override
     public int getMax() {
+        throwIllegalStateExceptionIfEmpty();
+        return this.valuesList.stream().max(Integer::compare).orElseThrow();
+    }
+
+    private void throwIllegalStateExceptionIfEmpty() {
         if (this.valuesList.isEmpty()) {
             throw new IllegalStateException(STANDARD_EMPTY_LIST_EXCEPTION_MESSAGE);
-        } else {
-            return this.valuesList.stream().max(Integer::compare).get();
         }
     }
 

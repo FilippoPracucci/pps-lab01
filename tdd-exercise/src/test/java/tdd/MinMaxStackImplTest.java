@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -22,7 +23,10 @@ class MinMaxStackImplTest {
 
     @Test
     public void testInitialState() {
-        assertTrue(this.minMaxStack.isEmpty());
+        assertAll(
+            () -> assertTrue(this.minMaxStack.isEmpty()),
+            () -> assertEquals(this.minMaxStack.size(), 0)
+        );
     }
 
     @Test
@@ -64,20 +68,24 @@ class MinMaxStackImplTest {
             this.minMaxStack.push(value);
         }
         assertAll(
-            () -> assertEquals(
-                    this.minMaxStack.getMin(),
-                    valuesList.stream().min(Integer::compare).orElseThrow()),
-            () -> assertEquals(
-                    this.minMaxStack.getMax(),
-                    valuesList.stream().max(Integer::compare).orElseThrow())
+            () -> assertEquals(this.minMaxStack.getMin(), Collections.min(valuesList)),
+            () -> assertEquals(this.minMaxStack.getMax(), Collections.max(valuesList))
         );
     }
 
     @Test
     public void testGetMinAndMaxIfEmpty() {
         assertAll(
-                () -> assertThrows(IllegalStateException.class, () -> this.minMaxStack.getMin()),
-                () -> assertThrows(IllegalStateException.class, () -> this.minMaxStack.getMax())
+            () -> assertThrows(IllegalStateException.class, () -> this.minMaxStack.getMin()),
+            () -> assertThrows(IllegalStateException.class, () -> this.minMaxStack.getMax())
+        );
+    }
+
+    @Test
+    public void testPopAndPeekIfEmpty() {
+        assertAll(
+            () -> assertThrows(IllegalStateException.class, () -> this.minMaxStack.pop()),
+            () -> assertThrows(IllegalStateException.class, () -> this.minMaxStack.peek())
         );
     }
 }
