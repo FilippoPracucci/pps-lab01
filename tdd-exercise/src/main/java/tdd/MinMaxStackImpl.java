@@ -5,6 +5,7 @@ import java.util.List;
 
 public class MinMaxStackImpl implements MinMaxStack {
 
+    private static final String STANDARD_EMPTY_LIST_EXCEPTION_MESSAGE = "The list is empty!";
     private final List<Integer> valuesList;
 
     public MinMaxStackImpl() {
@@ -28,12 +29,20 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public int getMin() {
-        return 0;
+        if (this.valuesList.isEmpty()) {
+            throw new IllegalStateException(STANDARD_EMPTY_LIST_EXCEPTION_MESSAGE);
+        } else {
+            return this.valuesList.stream().min(Integer::compare).get();
+        }
     }
 
     @Override
     public int getMax() {
-        return 0;
+        if (this.valuesList.isEmpty()) {
+            throw new IllegalStateException(STANDARD_EMPTY_LIST_EXCEPTION_MESSAGE);
+        } else {
+            return this.valuesList.stream().max(Integer::compare).get();
+        }
     }
 
     @Override

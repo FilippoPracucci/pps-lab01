@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -11,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MinMaxStackImplTest {
 
+    private static final int STANDARD_RANGE_MAX = 3;
     private MinMaxStack minMaxStack;
 
     @BeforeEach
@@ -25,22 +27,20 @@ class MinMaxStackImplTest {
 
     @Test
     public void testOrderAfterSomePushAndCheckSize() {
-        final int numberOfPush = 4;
-        final List<Integer> pushedList = pushFirstNumbersTillMax(numberOfPush);
+        final List<Integer> pushedList = pushFirstNumbersTillMax(STANDARD_RANGE_MAX);
         assertAll(
             () -> assertEquals(this.minMaxStack.peek(), pushedList.getLast()),
-            () -> assertEquals(this.minMaxStack.size(), numberOfPush)
+            () -> assertEquals(this.minMaxStack.size(), pushedList.size())
         );
     }
 
     @Test
     public void testCorrectPopsOrder() {
-        final int rangeMax = 3;
-        final List<Integer> valuesToPush = pushFirstNumbersTillMax(rangeMax);
+        final List<Integer> pushedList = pushFirstNumbersTillMax(STANDARD_RANGE_MAX);
         assertAll(
-            () -> assertEquals(this.minMaxStack.pop(), valuesToPush.get(2)),
-            () -> assertEquals(this.minMaxStack.pop(), valuesToPush.get(1)),
-            () -> assertEquals(this.minMaxStack.pop(), valuesToPush.get(0)),
+            () -> assertEquals(this.minMaxStack.pop(), pushedList.get(2)),
+            () -> assertEquals(this.minMaxStack.pop(), pushedList.get(1)),
+            () -> assertEquals(this.minMaxStack.pop(), pushedList.get(0)),
             () -> assertTrue(this.minMaxStack.isEmpty())
         );
     }
@@ -55,5 +55,21 @@ class MinMaxStackImplTest {
         }
 
         return valuesToPush;
+    }
+
+    @Test
+    public void testGetMinAndMaxIfNotEmpty() {
+        final List<Integer> valuesList = new ArrayList<>(Arrays.asList(3, 5, 2, 4));
+        for (final Integer value: valuesList) {
+            this.minMaxStack.push(value);
+        }
+        assertAll(
+            () -> assertEquals(
+                    this.minMaxStack.getMin(),
+                    valuesList.stream().min(Integer::compare).orElseThrow()),
+            () -> assertEquals(
+                    this.minMaxStack.getMax(),
+                    valuesList.stream().max(Integer::compare).orElseThrow())
+        );
     }
 }
