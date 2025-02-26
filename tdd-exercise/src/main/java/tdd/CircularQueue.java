@@ -29,4 +29,26 @@ public interface CircularQueue {
      */
     boolean isFull();
 
+    /**
+     * Checks if the CircularQueue is empty.
+     *
+     * @return true if the CircularQueue is empty, false otherwise.
+     */
+    boolean isEmpty();
+
+    /**
+     * Add an integer, if the CircularQueue is full it overwrites the oldest one.
+     *
+     * @param value The integer to add.
+     */
+    void add(int value);
+
+    /**
+     * Retrieves, but does not remove, the oldest element of the CircularQueue.
+     *
+     * @return The oldest element of the CircularQueue.
+     * @throws IllegalStateException if the CircularQueue is empty.
+     */
+    int peek();
+
 }

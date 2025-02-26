@@ -21,8 +21,19 @@ public class CircularListTest {
     @Test
     public void testInitialSetUp() {
         assertAll(
-                () -> assertEquals(CAPACITY, this.circularQueue.capacity()),
-                () -> assertFalse(this.circularQueue.isFull())
+            () -> assertEquals(CAPACITY, this.circularQueue.capacity()),
+            () -> assertFalse(this.circularQueue.isFull())
+        );
+    }
+
+    @Test
+    public void testFillCircularQueueAndPeek() {
+        for (int i = CAPACITY; i > 0; i--) {
+            this.circularQueue.add(i);
+        }
+        assertAll(
+            () -> assertTrue(this.circularQueue.isFull()),
+            () -> assertEquals(CAPACITY, this.circularQueue.peek())
         );
     }
 }

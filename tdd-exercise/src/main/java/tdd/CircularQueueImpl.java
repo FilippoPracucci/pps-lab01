@@ -5,6 +5,7 @@ import java.util.List;
 
 public class CircularQueueImpl implements CircularQueue {
 
+    private static final String CIRCULAR_QUEUE_EMPTY_ERROR_MESSAGE = "The CircularQueue is empty!";
     private final List<Integer> circularList;
     private final int capacity;
 
@@ -21,5 +22,26 @@ public class CircularQueueImpl implements CircularQueue {
     @Override
     public boolean isFull() {
         return this.circularList.size() >= this.capacity;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return this.circularList.isEmpty();
+    }
+
+    @Override
+    public void add(final int value) {
+        if (isFull()) {
+            this.circularList.removeFirst();
+        }
+        this.circularList.add(value);
+    }
+
+    @Override
+    public int peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException(CIRCULAR_QUEUE_EMPTY_ERROR_MESSAGE);
+        }
+        return this.circularList.getFirst();
     }
 }
