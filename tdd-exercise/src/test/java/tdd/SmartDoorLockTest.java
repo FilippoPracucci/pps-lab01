@@ -12,12 +12,12 @@ public class SmartDoorLockTest {
     private SmartDoorLock smartDoorLock;
 
     @BeforeEach
-    void beforeEach() {
+    public void setUp() {
          smartDoorLock = new SmartDoorLockImpl();
     }
 
     @Test
-    void testInitialState() {
+    public void testInitialState() {
         assertAll(
             () -> assertFalse(this.smartDoorLock.isLocked()),
             () -> assertEquals(this.smartDoorLock.getFailedAttempts(), 0)
@@ -32,7 +32,7 @@ public class SmartDoorLockTest {
     }
 
     @Test
-    void testUnlockDoorAfterTwoFailedAttempts() {
+    public void testUnlockDoorAfterTwoFailedAttempts() {
         final int numberOfWrongAttempts = 2;
         multipleWrongUnlockAfterLockingDoor(numberOfWrongAttempts);
         this.smartDoorLock.unlock(STANDARD_RIGHT_PIN);
@@ -48,7 +48,7 @@ public class SmartDoorLockTest {
     }
 
     @Test
-    void testBlockDoorAfterTooManyAttempts() {
+    public void testBlockDoorAfterTooManyAttempts() {
         blockDoor();
         assertAll(
             () -> assertTrue(this.smartDoorLock.getFailedAttempts() >= this.smartDoorLock.getMaxAttempts()),
@@ -58,7 +58,7 @@ public class SmartDoorLockTest {
     }
 
     @Test
-    void testUnlockBlockedDoorAfterReset() {
+    public void testUnlockBlockedDoorAfterReset() {
         blockDoor();
         this.smartDoorLock.reset();
         this.smartDoorLock.unlock(STANDARD_RIGHT_PIN);
@@ -70,7 +70,7 @@ public class SmartDoorLockTest {
     }
 
     @Test
-    void testCannotSetNewPinIfBlockedDoor() {
+    public void testCannotSetNewPinIfBlockedDoor() {
         final int newPin = 1234;
         blockDoor();
         assertAll(
@@ -80,7 +80,7 @@ public class SmartDoorLockTest {
     }
 
     @Test
-    void testCannotSetNewPinIfInvalid() {
+    public void testCannotSetNewPinIfInvalid() {
         final int newIllegalPin = 123;
         assertThrows(IllegalArgumentException.class, () -> this.smartDoorLock.setPin(newIllegalPin));
     }
