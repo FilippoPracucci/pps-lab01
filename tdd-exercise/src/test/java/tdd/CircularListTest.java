@@ -3,6 +3,9 @@ package tdd;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -11,6 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CircularListTest {
 
     private static final int CAPACITY = 3;
+    private static final int STANDARD_MAX_RANGE = 3;
+    private static final int STANDARD_MIN_RANGE = 1;
+    private static final int STANDARD_NUMBER_TO_ENQUEUE = 10;
     private CircularQueue circularQueue;
 
     @BeforeEach
@@ -31,21 +37,20 @@ public class CircularListTest {
         fillCircularQueue();
         assertAll(
             () -> assertTrue(this.circularQueue.isFull()),
-            () -> assertEquals(CAPACITY, this.circularQueue.peek())
+            () -> assertEquals(STANDARD_MIN_RANGE, this.circularQueue.peek())
         );
     }
 
     private void fillCircularQueue() {
-        for (int i = CAPACITY; i > 0; i--) {
+        for (int i = STANDARD_MIN_RANGE; i <= STANDARD_MAX_RANGE; i++) {
             this.circularQueue.enqueue(i);
         }
     }
 
     @Test
-    public void testEnqueueToFullCircularQueue() {
-        final int numberToEnqueue = 10;
+    public void testEnqueueIfFull() {
         fillCircularQueue();
-        this.circularQueue.enqueue(numberToEnqueue);
+        this.circularQueue.enqueue(STANDARD_NUMBER_TO_ENQUEUE);
         assertAll(
             () -> assertTrue(this.circularQueue.isFull()),
             () -> assertEquals(CAPACITY, this.circularQueue.size())
@@ -53,10 +58,34 @@ public class CircularListTest {
     }
 
     @Test
-    public void testDequeueAndPeekIfEmptyCircularQueue() {
+    public void testDequeueAndPeekIfEmpty() {
         assertAll(
             () -> assertThrows(IllegalStateException.class, () -> this.circularQueue.dequeue()),
             () -> assertThrows(IllegalStateException.class, () -> this.circularQueue.peek())
         );
+    }
+
+    @Test
+    public void testRightOrderAfterEnqueueIfFull() {
+        final List<Integer> orderedValuesList = rightOrderedValuesList(STANDARD_NUMBER_TO_ENQUEUE);
+        fillCircularQueue();
+        this.circularQueue.enqueue(STANDARD_NUMBER_TO_ENQUEUE);
+        assertAll(
+            () -> assertTrue(this.circularQueue.isFull()),
+            () -> assertEquals(orderedValuesList.removeFirst(), this.circularQueue.dequeue()),
+            () -> assertEquals(orderedValuesList.removeFirst(), this.circularQueue.dequeue()),
+            () -> assertEquals(orderedValuesList.removeFirst(), this.circularQueue.dequeue()),
+            () -> assertTrue(this.circularQueue.isEmpty())
+        );
+    }
+
+    private List<Integer> rightOrderedValuesList(final int replacingValue) {
+        final List<Integer> valuesList = new ArrayList<>();
+        for (int i = STANDARD_MIN_RANGE; i <= STANDARD_MAX_RANGE; i++) {
+            valuesList.add(i);
+        }
+        valuesList.removeFirst();
+        valuesList.add(replacingValue);
+        return valuesList;
     }
 }
