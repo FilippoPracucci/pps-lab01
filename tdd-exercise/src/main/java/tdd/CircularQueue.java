@@ -13,4 +13,20 @@ package tdd;
  *   - Introduce methods in the interface in order to make the tests pass.
  *   - Refactor
  */
-public interface CircularQueue { }
+public interface CircularQueue {
+
+    /**
+     * Gets the capacity of the CircularQueue.
+     *
+     * @return The capacity of the CircularQueue.
+     */
+    int capacity();
+
+    /**
+     * Checks if the CircularQueue is full.
+     *
+     * @return true if the CircularQueue is full, false otherwise.
+     */
+    boolean isFull();
+
+}
