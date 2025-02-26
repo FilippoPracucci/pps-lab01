@@ -3,6 +3,7 @@ package tdd;
 public class SmartDoorLockImpl implements SmartDoorLock {
 
     private final static int MAX_ATTEMPTS = 4;
+    private final static int STANDARD_PIN = 0000;
     private int pin;
     private boolean locked;
     private int failedAttempts;
@@ -74,6 +75,9 @@ public class SmartDoorLockImpl implements SmartDoorLock {
 
     @Override
     public void reset() {
-
+        this.locked = false;
+        this.blocked = false;
+        this.failedAttempts = 0;
+        this.pin = STANDARD_PIN;
     }
 }

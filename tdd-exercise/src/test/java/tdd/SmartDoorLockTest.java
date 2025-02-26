@@ -7,20 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SmartDoorLockTest {
 
-    public static final int RIGHT_PIN = 0000;
+    public static final int STANDARD_RIGHT_PIN = 0000;
     public static final int WRONG_PIN = 999;
     private SmartDoorLock smartDoorLock;
 
     @BeforeEach
     void beforeEach() {
-         smartDoorLock = new SmartDoorLockImpl(RIGHT_PIN);
+         smartDoorLock = new SmartDoorLockImpl(STANDARD_RIGHT_PIN);
     }
 
     @Test
     void testInitialState() {
         assertAll(
             () -> assertFalse(this.smartDoorLock.isLocked()),
-            () -> assertEquals(this.smartDoorLock.getFailedAttempts(), RIGHT_PIN)
+            () -> assertEquals(this.smartDoorLock.getFailedAttempts(), STANDARD_RIGHT_PIN)
         );
     }
 
@@ -35,7 +35,7 @@ public class SmartDoorLockTest {
     void testUnlockDoorAfterTwoFailedAttempts() {
         final int numberOfWrongAttempts = 2;
         multipleWrongUnlockAfterLockingDoor(numberOfWrongAttempts);
-        this.smartDoorLock.unlock(RIGHT_PIN);
+        this.smartDoorLock.unlock(STANDARD_RIGHT_PIN);
         assertAll(
             () -> assertFalse(this.smartDoorLock.isLocked()),
             () -> assertFalse(this.smartDoorLock.isBlocked())
@@ -50,6 +50,19 @@ public class SmartDoorLockTest {
             () -> assertTrue(this.smartDoorLock.getFailedAttempts() >= this.smartDoorLock.getMaxAttempts()),
             () -> assertTrue(this.smartDoorLock.isBlocked()),
             () -> assertTrue(this.smartDoorLock.isLocked())
+        );
+    }
+
+    @Test
+    void testUnlockBlockedDoorAfterReset() {
+        final int numberOfWrongAttempts = this.smartDoorLock.getMaxAttempts() + 1;
+        multipleWrongUnlockAfterLockingDoor(numberOfWrongAttempts);
+        this.smartDoorLock.reset();
+        this.smartDoorLock.unlock(STANDARD_RIGHT_PIN);
+        assertAll(
+            () -> assertFalse(this.smartDoorLock.isBlocked()),
+            () -> assertFalse(this.smartDoorLock.isLocked()),
+            () -> assertEquals(this.smartDoorLock.getFailedAttempts(), 0)
         );
     }
 }
