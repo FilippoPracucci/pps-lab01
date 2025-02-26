@@ -31,7 +31,7 @@ class MinMaxStackImplTest {
 
     @Test
     public void testOrderAfterSomePushAndCheckSize() {
-        final List<Integer> pushedList = pushFirstNumbersTillMax(STANDARD_RANGE_MAX);
+        final List<Integer> pushedList = pushFirstNumbersFromOneToRangeMax(STANDARD_RANGE_MAX);
         assertAll(
             () -> assertEquals(this.minMaxStack.peek(), pushedList.getLast()),
             () -> assertEquals(this.minMaxStack.size(), pushedList.size())
@@ -40,16 +40,16 @@ class MinMaxStackImplTest {
 
     @Test
     public void testCorrectPopsOrder() {
-        final List<Integer> pushedList = pushFirstNumbersTillMax(STANDARD_RANGE_MAX);
+        final List<Integer> pushedList = pushFirstNumbersFromOneToRangeMax(STANDARD_RANGE_MAX);
         assertAll(
-            () -> assertEquals(this.minMaxStack.pop(), pushedList.get(2)),
-            () -> assertEquals(this.minMaxStack.pop(), pushedList.get(1)),
-            () -> assertEquals(this.minMaxStack.pop(), pushedList.get(0)),
+            () -> assertEquals(this.minMaxStack.pop(), pushedList.removeLast()),
+            () -> assertEquals(this.minMaxStack.pop(), pushedList.removeLast()),
+            () -> assertEquals(this.minMaxStack.pop(), pushedList.removeLast()),
             () -> assertTrue(this.minMaxStack.isEmpty())
         );
     }
 
-    private List<Integer> pushFirstNumbersTillMax(final int rangeMax) {
+    private List<Integer> pushFirstNumbersFromOneToRangeMax(final int rangeMax) {
         final List<Integer> valuesToPush = new ArrayList<>(
                 IntStream.rangeClosed(1, rangeMax).boxed().toList()
         );
