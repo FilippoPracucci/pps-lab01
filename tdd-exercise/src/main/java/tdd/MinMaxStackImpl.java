@@ -5,7 +5,7 @@ import java.util.List;
 
 public class MinMaxStackImpl implements MinMaxStack {
 
-    private List<Integer> valuesList;
+    private final List<Integer> valuesList;
 
     public MinMaxStackImpl() {
         this.valuesList = new ArrayList<>();
@@ -18,7 +18,7 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public int pop() {
-        return 0;
+        return this.valuesList.removeLast();
     }
 
     @Override
