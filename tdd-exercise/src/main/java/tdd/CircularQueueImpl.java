@@ -39,9 +39,24 @@ public class CircularQueueImpl implements CircularQueue {
 
     @Override
     public int peek() {
+        throwExceptionIfEmptyCircularQueue();
+        return this.circularList.getFirst();
+    }
+
+    @Override
+    public int remove() {
+        throwExceptionIfEmptyCircularQueue();
+        return this.circularList.removeFirst();
+    }
+
+    private void throwExceptionIfEmptyCircularQueue() {
         if (isEmpty()) {
             throw new IllegalStateException(CIRCULAR_QUEUE_EMPTY_ERROR_MESSAGE);
         }
-        return this.circularList.getFirst();
+    }
+
+    @Override
+    public int size() {
+        return this.circularList.size();
     }
 }

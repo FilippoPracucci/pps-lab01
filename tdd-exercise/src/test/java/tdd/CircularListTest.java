@@ -28,12 +28,27 @@ public class CircularListTest {
 
     @Test
     public void testFillCircularQueueAndPeek() {
-        for (int i = CAPACITY; i > 0; i--) {
-            this.circularQueue.add(i);
-        }
+        fillCircularQueue();
         assertAll(
             () -> assertTrue(this.circularQueue.isFull()),
             () -> assertEquals(CAPACITY, this.circularQueue.peek())
+        );
+    }
+
+    private void fillCircularQueue() {
+        for (int i = CAPACITY; i > 0; i--) {
+            this.circularQueue.add(i);
+        }
+    }
+
+    @Test
+    public void testAddToFullCircularQueue() {
+        final int numberToAdd = 10;
+        fillCircularQueue();
+        this.circularQueue.add(numberToAdd);
+        assertAll(
+                () -> assertTrue(this.circularQueue.isFull()),
+                () -> assertEquals(CAPACITY, this.circularQueue.size())
         );
     }
 }

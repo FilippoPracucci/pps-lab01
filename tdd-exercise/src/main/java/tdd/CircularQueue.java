@@ -51,4 +51,19 @@ public interface CircularQueue {
      */
     int peek();
 
+    /**
+     * Removes and returns the oldest element of the CircularQueue.
+     *
+     * @return The removed element.
+     * @throws IllegalStateException if the CircularQueue is empty.
+     */
+    int remove();
+
+    /**
+     * Gets the number of elements inside the CircularQueue.
+     *
+     * @return The number of elements inside the CircularQueue.
+     */
+    int size();
+
 }
