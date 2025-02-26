@@ -8,19 +8,19 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SmartDoorLockTest {
 
     public static final int STANDARD_RIGHT_PIN = 0000;
-    public static final int WRONG_PIN = 999;
+    public static final int WRONG_PIN = 9999;
     private SmartDoorLock smartDoorLock;
 
     @BeforeEach
     void beforeEach() {
-         smartDoorLock = new SmartDoorLockImpl(STANDARD_RIGHT_PIN);
+         smartDoorLock = new SmartDoorLockImpl();
     }
 
     @Test
     void testInitialState() {
         assertAll(
             () -> assertFalse(this.smartDoorLock.isLocked()),
-            () -> assertEquals(this.smartDoorLock.getFailedAttempts(), STANDARD_RIGHT_PIN)
+            () -> assertEquals(this.smartDoorLock.getFailedAttempts(), 0)
         );
     }
 
@@ -42,10 +42,14 @@ public class SmartDoorLockTest {
         );
     }
 
-    @Test
-    void testBlockDoorAfterTooManyAttempts() {
+    private void blockDoor() {
         final int numberOfWrongAttempts = this.smartDoorLock.getMaxAttempts() + 1;
         multipleWrongUnlockAfterLockingDoor(numberOfWrongAttempts);
+    }
+
+    @Test
+    void testBlockDoorAfterTooManyAttempts() {
+        blockDoor();
         assertAll(
             () -> assertTrue(this.smartDoorLock.getFailedAttempts() >= this.smartDoorLock.getMaxAttempts()),
             () -> assertTrue(this.smartDoorLock.isBlocked()),
@@ -55,8 +59,7 @@ public class SmartDoorLockTest {
 
     @Test
     void testUnlockBlockedDoorAfterReset() {
-        final int numberOfWrongAttempts = this.smartDoorLock.getMaxAttempts() + 1;
-        multipleWrongUnlockAfterLockingDoor(numberOfWrongAttempts);
+        blockDoor();
         this.smartDoorLock.reset();
         this.smartDoorLock.unlock(STANDARD_RIGHT_PIN);
         assertAll(
@@ -64,5 +67,21 @@ public class SmartDoorLockTest {
             () -> assertFalse(this.smartDoorLock.isLocked()),
             () -> assertEquals(this.smartDoorLock.getFailedAttempts(), 0)
         );
+    }
+
+    @Test
+    void testCannotSetNewPinIfBlockedDoor() {
+        final int newPin = 1234;
+        blockDoor();
+        assertAll(
+            () -> assertThrows(IllegalStateException.class, () -> this.smartDoorLock.setPin(newPin)),
+            () -> assertTrue(this.smartDoorLock.isBlocked())
+        );
+    }
+
+    @Test
+    void testCannotSetNewPinIfInvalid() {
+        final int newIllegalPin = 123;
+        assertThrows(IllegalArgumentException.class, () -> this.smartDoorLock.setPin(newIllegalPin));
     }
 }

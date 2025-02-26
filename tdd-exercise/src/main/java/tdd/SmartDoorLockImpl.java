@@ -4,21 +4,34 @@ public class SmartDoorLockImpl implements SmartDoorLock {
 
     private final static int MAX_ATTEMPTS = 4;
     private final static int STANDARD_PIN = 0000;
+    private final static int PIN_NUMBER_OF_DIGITS = 4;
     private int pin;
     private boolean locked;
     private int failedAttempts;
     private boolean blocked;
 
-    public SmartDoorLockImpl(final int pin) {
-        this.pin = pin;
+    public SmartDoorLockImpl() {
+        this.pin = STANDARD_PIN;
         this.locked = false;
         this.failedAttempts = 0;
         this.blocked = false;
     }
 
-    @Override
-    public void setPin(int pin) {
+    private boolean isPinValid(int pin) {
+        return String.valueOf(pin).length() == PIN_NUMBER_OF_DIGITS;
+    }
 
+    @Override
+    public void setPin(final int pin) {
+        if (!this.blocked && !this.locked) {
+            if (isPinValid(pin)) {
+                this.pin = pin;
+            } else {
+                throw new IllegalArgumentException("The pin must be of 4 digits!");
+            }
+        } else {
+            throw new IllegalStateException("It cannot be set a new pin if the door is locked or blocked!");
+        }
     }
 
     private boolean isPinCorrect(final int pin) {
