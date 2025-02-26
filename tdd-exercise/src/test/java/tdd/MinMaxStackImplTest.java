@@ -25,7 +25,7 @@ class MinMaxStackImplTest {
     public void testInitialState() {
         assertAll(
             () -> assertTrue(this.minMaxStack.isEmpty()),
-            () -> assertEquals(this.minMaxStack.size(), 0)
+            () -> assertEquals(0, this.minMaxStack.size())
         );
     }
 
@@ -33,8 +33,8 @@ class MinMaxStackImplTest {
     public void testOrderAfterSomePushAndCheckSize() {
         final List<Integer> pushedList = pushFirstNumbersFromOneToRangeMax(STANDARD_RANGE_MAX);
         assertAll(
-            () -> assertEquals(this.minMaxStack.peek(), pushedList.getLast()),
-            () -> assertEquals(this.minMaxStack.size(), pushedList.size())
+            () -> assertEquals(pushedList.getLast(), this.minMaxStack.peek()),
+            () -> assertEquals(pushedList.size(), this.minMaxStack.size())
         );
     }
 
@@ -42,9 +42,9 @@ class MinMaxStackImplTest {
     public void testCorrectPopsOrder() {
         final List<Integer> pushedList = pushFirstNumbersFromOneToRangeMax(STANDARD_RANGE_MAX);
         assertAll(
-            () -> assertEquals(this.minMaxStack.pop(), pushedList.removeLast()),
-            () -> assertEquals(this.minMaxStack.pop(), pushedList.removeLast()),
-            () -> assertEquals(this.minMaxStack.pop(), pushedList.removeLast()),
+            () -> assertEquals(pushedList.removeLast(), this.minMaxStack.pop()),
+            () -> assertEquals(pushedList.removeLast(), this.minMaxStack.pop()),
+            () -> assertEquals(pushedList.removeLast(), this.minMaxStack.pop()),
             () -> assertTrue(this.minMaxStack.isEmpty())
         );
     }
@@ -68,8 +68,8 @@ class MinMaxStackImplTest {
             this.minMaxStack.push(value);
         }
         assertAll(
-            () -> assertEquals(this.minMaxStack.getMin(), Collections.min(valuesList)),
-            () -> assertEquals(this.minMaxStack.getMax(), Collections.max(valuesList))
+            () -> assertEquals(Collections.min(valuesList), this.minMaxStack.getMin()),
+            () -> assertEquals(Collections.max(valuesList), this.minMaxStack.getMax())
         );
     }
 

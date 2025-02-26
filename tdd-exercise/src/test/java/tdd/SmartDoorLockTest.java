@@ -20,7 +20,7 @@ public class SmartDoorLockTest {
     public void testInitialState() {
         assertAll(
             () -> assertFalse(this.smartDoorLock.isLocked()),
-            () -> assertEquals(this.smartDoorLock.getFailedAttempts(), 0)
+            () -> assertEquals(0, this.smartDoorLock.getFailedAttempts())
         );
     }
 
@@ -65,7 +65,7 @@ public class SmartDoorLockTest {
         assertAll(
             () -> assertFalse(this.smartDoorLock.isBlocked()),
             () -> assertFalse(this.smartDoorLock.isLocked()),
-            () -> assertEquals(this.smartDoorLock.getFailedAttempts(), 0)
+            () -> assertEquals(0, this.smartDoorLock.getFailedAttempts())
         );
     }
 
