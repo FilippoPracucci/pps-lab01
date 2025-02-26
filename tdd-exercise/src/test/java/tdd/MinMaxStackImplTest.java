@@ -72,4 +72,12 @@ class MinMaxStackImplTest {
                     valuesList.stream().max(Integer::compare).orElseThrow())
         );
     }
+
+    @Test
+    public void testGetMinAndMaxIfEmpty() {
+        assertAll(
+                () -> assertThrows(IllegalStateException.class, () -> this.minMaxStack.getMin()),
+                () -> assertThrows(IllegalStateException.class, () -> this.minMaxStack.getMax())
+        );
+    }
 }
