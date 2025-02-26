@@ -12,8 +12,8 @@ public class MinMaxStackImpl implements MinMaxStack {
     }
 
     @Override
-    public void push(int value) {
-
+    public void push(final int value) {
+        this.valuesList.add(value);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public int peek() {
-        return 0;
+        return this.valuesList.getLast();
     }
 
     @Override
@@ -43,6 +43,6 @@ public class MinMaxStackImpl implements MinMaxStack {
 
     @Override
     public int size() {
-        return 0;
+        return this.valuesList.size();
     }
 }
