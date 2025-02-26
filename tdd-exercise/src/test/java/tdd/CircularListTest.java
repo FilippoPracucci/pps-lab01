@@ -14,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.*;
 public class CircularListTest {
 
     private static final int CAPACITY = 3;
-    private static final int STANDARD_MAX_RANGE = 3;
-    private static final int STANDARD_MIN_RANGE = 1;
+    private static final int STANDARD_RANGE_MAX = 3;
+    private static final int STANDARD_RANGE_MIN = 1;
     private static final int STANDARD_NUMBER_TO_ENQUEUE = 10;
     private CircularQueue circularQueue;
 
@@ -37,12 +37,12 @@ public class CircularListTest {
         fillCircularQueue();
         assertAll(
             () -> assertTrue(this.circularQueue.isFull()),
-            () -> assertEquals(STANDARD_MIN_RANGE, this.circularQueue.peek())
+            () -> assertEquals(STANDARD_RANGE_MIN, this.circularQueue.peek())
         );
     }
 
     private void fillCircularQueue() {
-        for (int i = STANDARD_MIN_RANGE; i <= STANDARD_MAX_RANGE; i++) {
+        for (int i = STANDARD_RANGE_MIN; i <= STANDARD_RANGE_MAX; i++) {
             this.circularQueue.enqueue(i);
         }
     }
@@ -81,7 +81,7 @@ public class CircularListTest {
 
     private List<Integer> rightOrderedValuesList(final int replacingValue) {
         final List<Integer> valuesList = new ArrayList<>();
-        for (int i = STANDARD_MIN_RANGE; i <= STANDARD_MAX_RANGE; i++) {
+        for (int i = STANDARD_RANGE_MIN; i <= STANDARD_RANGE_MAX; i++) {
             valuesList.add(i);
         }
         valuesList.removeFirst();
